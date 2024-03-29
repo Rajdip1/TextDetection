@@ -1,5 +1,8 @@
 package com.example.textscanning
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +27,7 @@ class MainScreen : AppCompatActivity() {
 
         val edit = findViewById<ImageView>(R.id.btnEdit)
         val camera = findViewById<ImageView>(R.id.btnCamera)
-        val copy = findViewById<ImageView>(R.id.btnCamera)
+        val copy = findViewById<ImageView>(R.id.btnCopy)
 
         //initialized 'result' variable
         result = findViewById(R.id.resultTextView)
@@ -40,6 +43,18 @@ class MainScreen : AppCompatActivity() {
             else{
                 Toast.makeText(this,"Oops something wrong",Toast.LENGTH_SHORT).show()
             }
+        }
+
+        edit.setOnClickListener {
+            result.setText("")
+        }
+
+        copy.setOnClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip =ClipData.newPlainText("label",result.text.toString())
+            clipboard.setPrimaryClip(clip)
+
+            Toast.makeText(this,"Copied to clipboard",Toast.LENGTH_SHORT).show()
         }
 
     }
